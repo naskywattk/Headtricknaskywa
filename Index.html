@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NASKYWA AUXÍLIO</title>
+
+<style>
+:root{
+  --green:#00ff88;
+  --dark:#0b1a14;
+  --panel:#10261d;
+  --border:#00ff88;
+}
+
+*{
+  box-sizing:border-box;
+  font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body{
+  margin:0;
+  background:#000;
+  color:#dfffee;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* chuva */
+.rain{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+.drop{
+  position:absolute;
+  width:2px;
+  height:15px;
+  background:linear-gradient(to bottom, transparent, var(--green));
+  animation:fall linear infinite;
+  opacity:.4;
+}
+@keyframes fall{
+  to{transform:translateY(110vh);}
+}
+
+/* container */
+.app{
+  width:92%;
+  max-width:380px;
+  margin:40px auto;
+  background:var(--panel);
+  border:2px solid var(--border);
+  border-radius:18px;
+  box-shadow:0 0 25px rgba(0,255,136,.4);
+}
+
+/* header */
+.header{
+  text-align:center;
+  padding:16px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:var(--green);
+  border-bottom:1px solid var(--border);
+}
+
+/* layout */
+.content{
+  display:flex;
+}
+
+.menu{
+  width:90px;
+  border-right:1px solid var(--border);
+}
+
+.menu button{
+  width:100%;
+  padding:14px 6px;
+  background:none;
+  border:none;
+  color:#9fffd0;
+  cursor:pointer;
+}
+.menu button.active{
+  background:rgba(0,255,136,.15);
+  color:var(--green);
+  font-weight:600;
+}
+
+.panel{
+  flex:1;
+  padding:14px;
+  display:none;
+}
+.panel.active{display:block}
+
+/* caixas */
+.option{
+  display:flex;
+  align-items:center;
+  margin-bottom:10px;
+}
+.option input{margin-right:8px}
+
+/* slider */
+input[type=range]{
+  width:100%;
+}
+
+/* select */
+select{
+  width:100%;
+  padding:8px;
+  border-radius:8px;
+  background:#06140f;
+  color:#bfffe4;
+  border:1px solid var(--border);
+}
+
+/* botão */
+.inject{
+  margin:14px;
+  background:linear-gradient(135deg,#00ff88,#00cc66);
+  color:#003b24;
+  font-weight:800;
+  border:none;
+  border-radius:12px;
+  padding:14px;
+  width:calc(100% - 28px);
+  cursor:pointer;
+  box-shadow:0 0 18px rgba(0,255,136,.6);
+}
+.inject:active{transform:scale(.98)}
+
+.info{
+  text-align:center;
+  opacity:.9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="rain" id="rain"></div>
+
+<div class="app">
+  <div class="header">NASKYWA AUXÍLIO</div>
+
+  <div class="content">
+    <div class="menu">
+      <button class="active" onclick="openTab('precision')">Precision</button>
+      <button onclick="openTab('perform')">Perform</button>
+      <button onclick="openTab('info')">Info</button>
+    </div>
+
+    <!-- PRECISION -->
+    <div class="panel active" id="precision">
+      <div class="option"><input type="checkbox">Ativar precision</div>
+      <div class="option"><input type="checkbox">No Recoil</div>
+      <div class="option"><input type="checkbox">Aumentar precisão</div>
+      <div class="option"><input type="checkbox">Ignorar derrubados</div>
+
+      <label>FOV: <span id="fovVal">104</span></label>
+      <input type="range" min="0" max="360" value="104"
+             oninput="fovVal.innerText=this.value">
+
+      <label>Cursor</label>
+      <select>
+        <option>0</option>
+        <option>90</option>
+        <option>180</option>
+        <option>270</option>
+        <option>360</option>
+      </select>
+    </div>
+
+    <!-- PERFORM -->
+    <div class="panel" id="perform">
+      <div class="option">
+        <input type="checkbox">Force 120 FPS
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="panel" id="info">
+      <div class="info">
+        Auxílio naskywa
+      </div>
+    </div>
+  </div>
+
+  <button class="inject" onclick="openGame()">INJETAR</button>
+</div>
+
+<script>
+function openTab(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// chuva
+for(let i=0;i<80;i++){
+  const d=document.createElement('div');
+  d.className='drop';
+  d.style.left=Math.random()*100+'%';
+  d.style.animationDuration=(0.5+Math.random())+'s';
+  d.style.animationDelay=Math.random()*5+'s';
+  document.getElementById('rain').appendChild(d);
+}
+
+// abrir Free Fire MAX (tentativa)
+function openGame(){
+  window.location.href = "freefiremax://";
+  setTimeout(()=>{
+    alert("Se o Free Fire MAX não abriu, verifique se está instalado.");
+  },800);
+}
+</script>
+
+</body>
+</html>
